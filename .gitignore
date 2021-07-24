@@ -1,0 +1,5 @@
+node_modules
+.vscode
+raw/*
+!test.png
+res
