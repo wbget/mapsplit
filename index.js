@@ -8,6 +8,19 @@ const name = process.argv[2];
 const W = parseInt(process.argv[3]);
 const H = parseInt(process.argv[4]);
 
+const out = `res/${name}`;
+
+fs.createReadStream(`raw/${name}.png`)
+  .pipe(
+    new PNG({
+      colorType: 0,
+    }),
+  )
+  .on('parsed', function () {
+    this.pack().pipe(fs.createWriteStream(`${out}/thumb.png`))
+    // node index.js test 48 48
+    console.log('thumb success');
+  });
 fs.createReadStream(`raw/${name}.png`)
   .pipe(
     new PNG({
@@ -17,7 +30,6 @@ fs.createReadStream(`raw/${name}.png`)
   .on('parsed', function () {
     const py = Math.ceil(this.height / H);
     const px = Math.ceil(this.width / W);
-    const out = `res/${name}`;
     for (let y = 0; y < py; y++) {
       for (let x = 0; x < px; x++) {
         const newfile = new PNG({ width: W, height: H });
@@ -32,5 +44,5 @@ fs.createReadStream(`raw/${name}.png`)
       }
     }
     // node index.js test 48 48
-    console.log('success');
+    console.log('split success');
   });
