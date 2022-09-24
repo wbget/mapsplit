@@ -9,18 +9,6 @@ const W = parseInt(process.argv[3]);
 const H = parseInt(process.argv[4]);
 
 const out = `res/${name}`;
-
-fs.createReadStream(`raw/${name}.png`)
-  .pipe(
-    new PNG({
-      colorType: 0,
-    }),
-  )
-  .on('parsed', function () {
-    this.pack().pipe(fs.createWriteStream(`${out}/thumb.png`))
-    // node index.js test 48 48
-    console.log('thumb success');
-  });
 fs.createReadStream(`raw/${name}.png`)
   .pipe(
     new PNG({
@@ -45,4 +33,16 @@ fs.createReadStream(`raw/${name}.png`)
     }
     // node index.js test 48 48
     console.log('split success');
+  });
+
+fs.createReadStream(`raw/${name}.png`)
+  .pipe(
+    new PNG({
+      colorType: 0,
+    }),
+  )
+  .on('parsed', function () {
+    this.pack().pipe(fs.createWriteStream(`${out}/thumb.png`))
+    // node index.js test 48 48
+    console.log('thumb success');
   });
